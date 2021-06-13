@@ -1,8 +1,8 @@
 #app:
 #  datasource:
 #    jdbc-url: jdbc:postgresql://localhost:5432/CarDAO
-#    username: postgres
-#    password: MojeHaslo
+#    username: ***
+#    password: ***
 #    pool-size: 30
 #spring:
 #  sql:
