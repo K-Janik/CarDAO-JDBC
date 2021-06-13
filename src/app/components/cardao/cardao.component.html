@@ -1,0 +1,138 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="navbar-brand" style="color:white;">Car Manager</div>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarColor02">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" (click)="onOpenModal(null, 'add')">Add Car <span class="sr-only">(current)</span></a>
+      </li>
+    </ul>
+  </div>
+  <div class="collapse navbar-collapse" id="navbarColor01">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item active">
+        <a class="nav-link" (click)="onOpenModal(null, 'search')">Search Cars <span class="sr-only">(current)</span></a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<div class="container" id="main-container">
+  <div class="row">
+    <div *ngFor="let car of rootObject" class="col-md-6 col-xl-3">
+      <div class="card m-b-30">
+        <div class="card-body row">
+          <div class="col-6">
+            <div>{{car.id}}</div>
+          </div>
+          <div class="col-6 card-title align-self-center mb-0">
+            <h5>{{car?.brand}}</h5>
+            <p class="m-0">{{car?.model}}</p>
+          </div>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><center>Model Year : <div>{{car.modelYear}}</div></center></li>
+        </ul>
+        <div class="card-body">
+          <div class="float-right btn-group btn-group-sm">
+            <a href="#" (click)="onOpenModal(car, 'delete')" class="btn btn-secondary tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-times"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add Car Modal -->
+<div class="modal fade" id="addCarModal" tabindex="-1" role="dialog" aria-labelledby="addCarModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addCarModalLabel">Add Car</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #addForm="ngForm" (ngSubmit)="onAddCar(addForm)">
+          <div class="form-group">
+            <label for="id">ID</label>
+            <input type="number" ngModel name="id" class="form-control" id="id" placeholder="ID" required>
+          </div>
+          <div class="form-group">
+            <label for="brand">Brand</label>
+            <input type="text" ngModel name="brand" class="form-control" id="brand" placeholder="Brand" required>
+          </div>
+          <div class="form-group">
+            <label for="model">Model</label>
+            <input type="text" ngModel name="model" class="form-control" id="model" placeholder="Model" required>
+          </div>
+          <div class="form-group">
+            <label for="modelYear">Model Year</label>
+            <input type="text" ngModel name="modelYear" class="form-control" id="modelYear" placeholder="Model Year" required>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="add-car-form" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button [disabled]="addForm.invalid" type="submit" class="btn btn-primary" >Save changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Search Car Modal -->
+<div class="modal fade" id="searchCarModal" tabindex="-1" role="dialog" aria-labelledby="searchCarModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="searchCarModalLabel">Search Cars</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #searchForm="ngForm" (ngSubmit)="onSearchCars(fromYear.valueAsNumber,untilYear.valueAsNumber)">
+          <div class="form-group">
+            <label for="id">From Year</label>
+            <input type="number" #fromYear ngModel name="fromYear" class="form-control" id="fromYear" placeholder="From Year" required>
+          </div>
+          <div class="form-group">
+            <label for="brand">Until Year</label>
+            <input type="number" #untilYear ngModel name="untilYear" class="form-control" id="untilYear" placeholder="Until Year" required>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="search-car-form" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button [disabled]="searchForm.invalid" type="submit" class="btn btn-primary" >Search</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteCarModal" tabindex="-1" role="dialog" aria-labelledby="deleteModelLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModelLabel">Delete Car</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete car {{deleteCar?.brand}} {{deleteCar?.model}}?</p>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+          <button (click)="onDeleteCarById(deleteCar?.id)" class="btn btn-danger" data-dismiss="modal">Yes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
